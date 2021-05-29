@@ -61,7 +61,6 @@ const _idExist = check('id').custom(
 const getRequestValidation = [
     validJWT,     
     _idRequired,
-    _idISMongoDB,
     _idExist,
     validationResult
 ];
@@ -74,7 +73,6 @@ const deleteRequestValidation = [
     validJWT,
     hasRole(ADMIN_ROLE),
     _idRequired,
-    _idISMongoDB,
     _idExist,
     validationResult
 ];
@@ -83,13 +81,11 @@ const postRequestValidations = [
     validJWT,
     hasRole(ADMIN_ROLE),
     _nameRequired,
-    _lastNameRequired,
     _emailRequired,
     _emailValid,
     _emailExist,
     _passwordRequired,
     _roleValid,
-    _dateValid,
     validationResult
 ];
 
@@ -97,12 +93,10 @@ const putRequestValidations = [
     validJWT,
     hasRole(ADMIN_ROLE),
     _idRequired,
-    _idISMongoDB,
     _idExist,
     _optionalEmailValid,
     _optionalEmailExist,
     _roleValid,
-    _dateValid,
     validationResult
 ]; 
 

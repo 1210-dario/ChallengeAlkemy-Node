@@ -29,7 +29,7 @@ const login = async(email, password)=> {
         }
 
         //Generar JWT
-        const token = _encrypt(user._id);
+        const token = _encrypt(user.id);
 
         return{
             token,
@@ -40,7 +40,7 @@ const login = async(email, password)=> {
     }catch(error){
         throw error;
     }
-}
+};
 
 const validToken = async (token) => {
     try{
@@ -83,20 +83,32 @@ const validToken = async (token) => {
     }catch(err){
         throw err;
     }
-}
+};
 
 const validRole = (user, ...roles) => {
     if(!roles.includes(user.role)){
         throw new AppError('Authorization failed! User without privileges',403);
     }
     return true;
-}
+};
+
+const register = async(email,password) => {
+
+    const user = {email,password};
+
+    await userService.save(user);
+
+    //TODO; Enviar un mail de confirmación de registro? 
+
+    return 'User registered succesfully. Now you can log in to use the API.';
+};
 
 _encrypt = (id) =>{
     return jwt.sign({id}, config.auth.secret, { expiresIn: config.auth.ttl });
 };
 
 module.exports = {
+    register,
     login,
     validToken,
     validRole
