@@ -11,8 +11,7 @@ const findByName = async(name) => {
 
 
 const findAll = async(filter,options) => {
-    //return await repository.findAllWithPagination(filter, options);
-    return await repository.findAll();
+    return await repository.findAll(filter,options);
 } 
 
 const save = async(character) => {

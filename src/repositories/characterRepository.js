@@ -1,12 +1,29 @@
+const { Op } = require("sequelize");
 const Character = require('../models/characters');
 
 class CharacterRepository{
     constructor(){
 
     }
-    //Por hacer: Implementar Filtro
-    async findAll(){
-        return await Character.findAll();
+    //Por hacer: Implementar Filtro de movieTitle
+    async findAll({name, age, weigth, movieTitle}, options){
+        let where = {};
+        if(name){
+            where.name = {
+                [Op.like]: `%${name}%`
+            }
+        }
+        if(age){
+            where.age = {
+                [Op.eq]: age
+            }
+        }
+        if(weigth){
+            where.weigth = {
+                [Op.eq]: weigth
+            }
+        }
+        return await Character.findAll({where});
     }
 
     async findById(id){

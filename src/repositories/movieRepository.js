@@ -1,13 +1,41 @@
+const { Op } = require("sequelize");
 const Movie = require('../models/movies');
 const GenderType = require('../models/genderTypes');
+const { parseISO } = require('date-fns'); 
+
+
 
 class MovieRepository{
     constructor(){
 
     }
-    //Por hacer: Implementar Filtro
-    async findAll(){
-        return await Movie.findAll();
+    async findAll({title, calification, creationDate}, {offset,limit,order}){
+        let where = {};
+        if(title){
+            where.title = {
+                [Op.like]: `%${title}%`
+            }
+        }
+        if(calification){
+            where.calification = {
+                [Op.eq]: calification
+            }
+        }
+        if(creationDate){
+            creationDate = parseISO(creationDate)
+            creationDate.setHours(-3);
+            where.creationDate = {
+                [Op.eq]: creationDate
+            }
+        }
+        let config = {
+            where,
+            attributes: ['title','image','creationDate'],
+        }
+        if(order){
+            config.order = [order.split(';')];
+        }
+        return await Movie.findAll(config);
     }
 
     async findById(id){

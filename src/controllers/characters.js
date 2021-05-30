@@ -11,7 +11,8 @@ const Success = require('../handlers/successHandler');
 
 const getAllCharacters = async (req, res, next)=>{
     try {
-        const characters = await characterService.findAll(req.query.filter, req.query.options);
+        const {filter = '', options = ''} = req.query;
+        const characters = await characterService.findAll(filter, options);
         res.json(new Success(characters));
     }catch(err){
         next(err);
