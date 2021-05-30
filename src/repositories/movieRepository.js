@@ -1,7 +1,6 @@
 const { Op } = require("sequelize");
 const Movie = require('../models/movies');
 const GenderType = require('../models/genderTypes');
-const { parseISO } = require('date-fns'); 
 
 
 
@@ -22,8 +21,6 @@ class MovieRepository{
             }
         }
         if(creationDate){
-            creationDate = parseISO(creationDate)
-            creationDate.setHours(-3);
             where.creationDate = {
                 [Op.eq]: creationDate
             }
